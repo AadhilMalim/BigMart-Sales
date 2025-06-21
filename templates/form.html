@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Big Mart Sales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header> <nav> <h1>Big Mart Sales Predictor</h1> </nav> </header>
+
+    <main>
+      <div class="left">
+        <form action="" method="post" class="formdiv">
+          <div class="part">
+            {% for field in ['Item_Identifier', 'Item_Weight',
+            'Item_Fat_Content', 'Item_Visibility', 'Item_Type', 'Item_MRP'] %}
+            <div class="inpdiv">
+              <label for="{{field}}">{{ field }}:</label>
+              <input required type="text" name="{{ field }}" id="{{field}}"
+                value="{{ data[field] if data else ''}}" />
+            </div>
+            {% endfor %}
+          </div>
+          <div class="part">
+            {% for field in ['Outlet_Identifier', 'Outlet_Establishment_Year', 'Outlet_Size',
+            'Outlet_Location_Type', 'Outlet_Type'] %}
+            <div class="inpdiv">
+              <label for="{{field}}">{{ field }}:</label>
+              <input
+                required
+                type="text"
+                name="{{ field }}"
+                id="{{field}}"
+                value="{{ data[field] if data else ''}}"
+              />
+            </div>
+            {% endfor %}
+            <div class="inpdiv">
+              <label for="submit">Click on Predict to see sales prediction</label>
+              <button type="submit">Predict</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="right">
+        <span>model</span>
+        <div class="model">XGBoost Regressor</div>
+        <div class="accuracy"> 61.75% acc. &nbsp; RMSE: 915.2</div><br>
+        <a target="_blank" href="https://www.kaggle.com/code/mohamedaadhilmalim/note-book-2-aadhil" class="Notebook" >click to view Kaggle Notebook:-</a>
+        {% if prediction!='None' %}
+        <div class="prediction">
+          <h2><span>Predicted Item Outlet Sales:</span>&nbsp; ₹{{ prediction }}</h2>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+  </body>
+</html>
